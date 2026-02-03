@@ -1887,7 +1887,7 @@ async function showMountDetails(mountId) {
         }
 
         let detailHtml = `<span class="source-name">${s.name}</span>`;
-        if (src.location) detailHtml += `<span class="source-desc"><i class="fa-solid fa-location-dot"></i> ${src.location}</span>`;
+        if (src.location) detailHtml += `<span class="source-desc location-link-container"><i class="fa-solid fa-location-dot"></i> ${src.location}</span>`;
         if (src.details) detailHtml += `<span class="source-desc">${src.details}</span>`;
 
         row.innerHTML = `${iconHtml}<div class="source-details">${detailHtml}</div>`;
@@ -2022,7 +2022,7 @@ function openMountModal(mount, patchData) {
             <div class="source-info">
                 ${sourceTitleHtml}
                 ${sourceDetailsHtml}
-                ${ms.location ? `<span style="font-weight:bold; font-size:0.85rem;">${ms.location}</span>` : ''}
+                ${ms.location ? `<span class="location-link-container" style="font-weight:bold; font-size:0.85rem;">${ms.location}</span>` : ''}
                 ${mount.reputation_rank ? `<span style="font-size:0.85rem;">${mount.reputation_rank}</span>` : ''}
             </div>
             ${costHtml}
