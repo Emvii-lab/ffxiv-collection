@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails - Into The Mist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="https://res.cloudinary.com/dd4rdtrig/image/upload/v1765754698/ffxiv_logo_black_text_patch_7.0_pgijf1.png"
+        type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2.1">
+    <script src="https://lds-img.finalfantasyxiv.com/pc/global/js/eorzeadb/loader.js?v=3"></script>
+</head>
+
+<body>
+    <div class="banner-container"></div>
+    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"><span id="theme-icon">🌙</span></button>
+
+    <main>
+        <div id="dashboard-view">
+            <nav class="main-nav"></nav>
+
+            <div id="minion-detail-view" class="dashboard-content">
+                <button id="btn-back" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Retour à la liste</button>
+
+                <!-- Moved Header to Top -->
+                <div class="detail-header-flex">
+                    <h1 id="detail-name">Nom de la Mascotte</h1>
+                </div>
+
+                <div class="detail-container">
+                    <!-- Left: Large Image (Col 1) -->
+                    <div class="detail-image-wrapper">
+                        <img id="detail-img" src="" alt="Minion" class="detail-img-large">
+                    </div>
+
+                    <!-- Right Column: Info + Sources -->
+                    <div class="detail-column-right">
+
+                        <!-- Top: Info (Logo + Diary) -->
+                        <div class="detail-info-wrapper">
+                            <div class="detail-patch-info">
+                                <img id="detail-patch-logo" src="" alt="Patch Logo" class="detail-patch-logo-large">
+                                <span id="detail-patch-ver" class="detail-patch-badge">Patch X.X</span>
+                            </div>
+
+                            <div class="detail-diary">
+                                <h3><i class="fa-solid fa-book-open"></i> Journal</h3>
+                                <p id="detail-diary-text">Description du carnet...</p>
+                            </div>
+                        </div>
+
+                        <!-- Bottom: Sources -->
+                        <div class="detail-sources-wrapper">
+                            <h3><i class="fa-solid fa-map-location-dot"></i> Moyens d'obtention</h3>
+                            <div id="detail-sources" class="detail-sources">
+                                <!-- Sources injected via JS -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/js/pages/detail.js"></script>
+</body>
+
+</html>

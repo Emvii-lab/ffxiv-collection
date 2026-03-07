@@ -1,6 +1,19 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-    // IMPORTANT: The base must match your repository name for GitHub Pages
     base: '/into_the_mist/',
+    envPrefix: 'VITE_',
+    build: {
+        rollupOptions: {
+            input: {
+                main: 'index.html',
+                accueil: 'accueil.html',
+                minions: 'minions.html',
+                mounts: 'mounts.html',
+                bardings: 'bardings.html',
+                orchestrion: 'orchestrion.html',
+                detail: 'detail.html'
+            }
+        }
+    }
 })

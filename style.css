@@ -1866,30 +1866,13 @@ body {
 .detail-sources {
     display: block !important;
     width: 100%;
-    margin-top: 1.5rem;
-}
-
-.detail-sources.has-multiple-sources {
-    column-count: 2;
-    column-gap: 2rem;
 }
 
 .detail-header {
     margin-bottom: 2rem;
 }
 
-#detail-name {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0 0 1rem 0;
-    color: var(--primary-color);
-    line-height: 1.1;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, var(--primary-color), var(--gold));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+
 
 .detail-patch-info {
     display: flex;
@@ -1927,6 +1910,23 @@ body {
     position: relative;
 }
 
+.detail-patch-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 2rem;
+    position: relative;
+    width: 100%;
+}
+
+.detail-patch-header .detail-patch-badge {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .detail-diary h3,
 .detail-sources-wrapper h3 {
     margin-top: 0;
@@ -1945,7 +1945,6 @@ body {
     font-style: italic;
     white-space: pre-line;
     text-align: justify;
-    /* Justified as requested */
 }
 
 /* Responsive */
@@ -2022,15 +2021,17 @@ body {
 /* Ensure Name doesn't have huge margin bottom now */
 #detail-name {
     margin-bottom: 1.5rem;
-    /* Added spacing per request */
     width: auto;
     max-width: 100%;
     flex: 0 1 auto;
     font-family: 'TrajanPro-Bold', serif;
-    /* Custom Font */
     font-size: 3.5rem;
     letter-spacing: 0.5px;
     text-align: center;
+    /* Color is managed by text-patch-X classes injected via JS */
+    text-transform: uppercase;
+    text-shadow: 0 0 15px color-mix(in srgb, currentColor 60%, transparent);
+    background: none !important;
 }
 
 /* Patch Info Line (Logo + Badge) */
@@ -2096,7 +2097,6 @@ body {
 .source-left {
     display: flex;
     align-items: center;
-    /* Reverted to center per request */
     gap: 1rem;
     flex: 1;
 }
@@ -2137,7 +2137,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Ensure internal centering if height > content */
 }
 
 /* Reset badge for transparent background */
@@ -2172,47 +2171,184 @@ body {
     --primary-color: #71717a;
 }
 
-/* ARR/Heavensward legacy or specific */
 .theme-patch-3 {
     --primary-color: #3b82f6;
 }
 
-/* Heavensward */
 .theme-patch-4 {
     --primary-color: #be123c;
 }
 
-/* Stormblood */
 .theme-patch-5 {
     --primary-color: #4338ca;
 }
 
-/* Shadowbringers */
 .theme-patch-6 {
     --primary-color: #d97706;
 }
 
-/* Endwalker */
 .theme-patch-7 {
     --primary-color: #eab308;
 }
 
-/* Dawntrail */
-/* Default */
 .theme-patch-default {
     --primary-color: var(--gold);
 }
 
-/* Force Title Color to override Gradient */
-#detail-name.text-patch-2,
-#detail-name.text-patch-3,
-#detail-name.text-patch-4,
-#detail-name.text-patch-5,
-#detail-name.text-patch-6,
-#detail-name.text-patch-7 {
-    background: none !important;
-    color: var(--primary-color) !important;
-    text-shadow: 0 0 20px color-mix(in srgb, var(--primary-color) 40%, transparent);
+/* If user wants currency symbol/icon, they are usually included in text or adjacent */
+
+/* --- BARDINGS VIEWAR --- */
+.barding-name-link {
+    cursor: pointer;
+    transition: filter 0.2s;
+    display: inline-block;
 }
 
-/* If user wants currency symbol/icon, they are usually included in text or adjacent */
+.barding-name-link:hover {
+    filter: brightness(1.2);
+    text-decoration: underline;
+}
+
+.barding-row {
+    background: var(--surface);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s, box-shadow 0.2s;
+}
+
+.barding-row.scroll-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.barding-name {
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-right: auto;
+    cursor: default;
+}
+
+.barding-row.collected {
+    background-color: #2d2d2d !important;
+    opacity: 1;
+}
+
+[data-theme="light"] .barding-row.collected {
+    background-color: #f1f5f9 !important;
+}
+
+.barding-row.unavailable {
+    background-color: #3f1115 !important;
+    border-color: #7f1d1d;
+    color: #fecaca;
+}
+
+[data-theme="light"] .barding-row.unavailable {
+    background-color: #ffe4e6 !important;
+    border: 1px solid #fecaca;
+    color: inherit;
+}
+
+.barding-row.unavailable:hover {
+    background-color: #55161b !important;
+}
+
+[data-theme="light"] .barding-row.unavailable:hover {
+    background-color: #fff1f2 !important;
+}
+
+.barding-row:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+    opacity: 1;
+}
+
+.barding-row.collected:hover {
+    opacity: 0.8;
+}
+
+.barding-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    margin-right: 1.5rem;
+    object-fit: contain;
+    background: rgba(0, 0, 0, 0.1);
+    filter: none;
+    opacity: 1;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+.barding-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.barding-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.barding-row.collected .btn-collect {
+    background-color: var(--gold);
+    color: #fff !important;
+    filter: none;
+}
+
+[data-theme="light"] .barding-row.collected .btn-collect {
+    color: #78350f !important;
+}
+
+.barding-row.collected .barding-icon,
+.barding-row.collected .barding-info .col-badge,
+.barding-row.collected .barding-info .col-logo,
+.barding-row.collected .barding-info .col-market,
+.barding-row.collected .barding-name,
+.barding-row.collected .unavailable-tag,
+.barding-row.collected .barding-meta>*:not(.btn-collect-container) {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+.barding-row.collected:not(:hover) {
+    opacity: 0.5;
+}
+
+[data-theme="light"] .barding-row.collected:not(:hover) {
+    background: #f9f9f9 !important;
+}
+
+.barding-row.collected>*:not(.barding-meta) {
+    filter: grayscale(100%);
+    transition: 0.3s;
+}
+
+.barding-row.collected:hover>*:not(.barding-meta),
+.barding-row.collected:hover .barding-icon {
+    filter: grayscale(0%) !important;
+    opacity: 1 !important;
+}
+
+.barding-center-text {
+    flex: 1;
+    text-align: center;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    padding: 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

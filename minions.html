@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascottes - Into The Mist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="https://res.cloudinary.com/dd4rdtrig/image/upload/v1765754698/ffxiv_logo_black_text_patch_7.0_pgijf1.png"
+        type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2.1">
+    <script src="https://lds-img.finalfantasyxiv.com/pc/global/js/eorzeadb/loader.js?v=3"></script>
+</head>
+
+<body>
+    <div class="banner-container"></div>
+    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"><span id="theme-icon">🌙</span></button>
+
+    <main>
+        <div id="dashboard-view">
+            <nav class="main-nav"></nav>
+
+            <div id="minions-view" class="dashboard-content">
+                <!-- FILTER BAR -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <span class="filter-label">Filtrer par</span>
+                        <button class="btn-star-unified missing" data-filter="missing" title="Non acquis"><i
+                                class="fa-regular fa-star"></i></button>
+                        <button class="btn-star-unified collected" data-filter="collected" title="Acquis"><i
+                                class="fa-solid fa-star"></i></button>
+                    </div>
+                    <button class="btn-filter-reset" id="filter-reset" title="Réinitialiser les filtres"><i
+                            class="fa-solid fa-rotate-left"></i></button>
+                    <button class="btn-sync" id="btn-sync" title="Synchroniser avec FFXIV Collect"><i
+                            class="fa-solid fa-arrows-rotate"></i> Sync</button>
+                    <div class="filter-group">
+                        <span class="filter-label">Filtrer par</span>
+                        <div class="patch-filters">
+                            <button class="btn-patch-filter patch-2" data-patch="2">2.x</button>
+                            <button class="btn-patch-filter patch-3" data-patch="3">3.x</button>
+                            <button class="btn-patch-filter patch-4" data-patch="4">4.x</button>
+                            <button class="btn-patch-filter patch-5" data-patch="5">5.x</button>
+                            <button class="btn-patch-filter patch-6" data-patch="6">6.x</button>
+                            <button class="btn-patch-filter patch-7" data-patch="7">7.x</button>
+                        </div>
+                    </div>
+                    <div class="filter-group search-group">
+                        <div class="search-wrapper">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="minion-search" placeholder="Rechercher..." class="search-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="minions-list" class="minions-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- DETAILS MODAL (Shared) -->
+    <div id="details-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close-btn">&times;</button>
+            <div class="modal-header">
+                <h2 style="margin:0; font-size:1.5rem; color:var(--gold);">Moyens d'obtention</h2>
+            </div>
+            <div class="modal-body">
+                <div id="modal-sources-list" class="sources-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/js/pages/minions.js"></script>
+</body>
+
+</html>

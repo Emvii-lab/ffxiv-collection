@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Into The Mist</title>
-    <!-- Fonts -->
+    <title>Connexion - Into The Mist</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,303 +13,49 @@
         type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=2.1">
-    <!-- FFXIV Tooltips -->
-    <script src="https://lds-img.finalfantasyxiv.com/pc/global/js/eorzeadb/loader.js?v=3"></script>
 </head>
 
 <body>
-
-    <!-- Banner & Logo (Always Visible) -->
     <div class="banner-container">
-        <div class="logo-circle">
+        <div class="logo-circle logo-center">
             <img id="main-logo"
                 src="https://res.cloudinary.com/dd4rdtrig/image/upload/v1765754698/ffxiv_logo_black_text_patch_7.0_pgijf1.png"
                 alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
         </div>
     </div>
 
-    <!-- Audio Control (Fixed) -->
-    <button id="audio-toggle" class="audio-btn" aria-label="Toggle Music">
-        <span id="audio-icon">🔇</span>
-    </button>
-
-    <!-- Theme Toggle (Fixed) -->
-    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
-        <span id="theme-icon">🌙</span>
-    </button>
+    <!-- Audio Control -->
+    <button id="audio-toggle" class="audio-btn" aria-label="Toggle Music"><span id="audio-icon">🔇</span></button>
+    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"><span id="theme-icon">🌙</span></button>
 
     <main>
-        <!-- VIEW: LOGIN (Default) -->
         <div id="login-view">
             <div class="auth-container">
                 <div class="auth-header">
                     <h2>Connexion</h2>
                 </div>
-
                 <form id="login-form">
                     <div class="form-group">
                         <label>Entrez votre email</label>
                         <input type="email" id="email" placeholder="Email" class="form-input" required>
                     </div>
-
                     <div class="form-group">
                         <label>Entrez votre mot de passe</label>
                         <input type="password" id="password" placeholder="Mot de passe" class="form-input" required>
                     </div>
-
                     <button type="submit" class="btn-primary" id="login-btn">Se connecter</button>
                     <p id="error-msg" style="color: red; text-align: center; font-size: 0.9rem; display: none;"></p>
                 </form>
-
                 <div class="auth-links">
-                    <a href="#">J'ai oublié mon mot de passe</a>
-                    <br>
+                    <a href="#">J'ai oublié mon mot de passe</a><br>
                     <span>Vous n'avez pas encore de compte ? <a href="#">Inscription ici</a></span>
                 </div>
             </div>
-
-            <!-- Mascots Decoration (Only on Login) -->
             <section id="supabase-data"></section>
         </div>
-
-        <!-- VIEW: DASHBOARD (Hidden by default) -->
-        <div id="dashboard-view" class="hidden">
-
-            <!-- Navigation Menu -->
-            <nav class="main-nav">
-                <ul class="nav-list">
-                    <li><a href="#" class="nav-link active">Accueil</a></li>
-                    <li><a href="#" class="nav-link">Mascottes</a></li>
-                    <li><a href="#" class="nav-link">Montures</a></li>
-                    <li><a href="#" class="nav-link">Bardes</a></li>
-                    <li><a href="#" class="nav-link">Orchestion</a></li>
-                    <li><button id="logout-btn" class="btn-logout" title="Se déconnecter">
-                            <img src="https://ffxiv.gamerescape.com/w/images/2/2b/Player2_Icon.png" alt="Logout"
-                                class="logout-icon">
-                        </button></li>
-                </ul>
-            </nav>
-
-            <!-- Dashboard Content: Home (Video) -->
-            <div id="dashboard-home" class="dashboard-content">
-                <div class="video-wrapper">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ZHoZ5981rPg?si=7B5u...&rel=0"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-
-            <div id="minions-view" class="dashboard-content hidden">
-
-                <!-- FILTER BAR -->
-                <div class="filter-bar">
-                    <div class="filter-group">
-                        <span class="filter-label">Filtrer par</span>
-                        <button class="btn-star-unified missing" data-filter="missing" title="Non acquis">
-                            <i class="fa-regular fa-star"></i>
-                        </button>
-                        <button class="btn-star-unified collected" data-filter="collected" title="Acquis">
-                            <i class="fa-solid fa-star"></i>
-                        </button>
-                    </div>
-
-                    <button class="btn-filter-reset" id="filter-reset" title="Réinitialiser les filtres"><i
-                            class="fa-solid fa-rotate-left"></i></button>
-                    <button class="btn-sync" id="btn-sync" title="Synchroniser avec FFXIV Collect"><i
-                            class="fa-solid fa-arrows-rotate"></i> Sync</button>
-
-                    <div class="filter-group">
-                        <span class="filter-label">Filtrer par</span>
-                        <div class="patch-filters">
-                            <button class="btn-patch-filter patch-2" data-patch="2">2.x</button>
-                            <button class="btn-patch-filter patch-3" data-patch="3">3.x</button>
-                            <button class="btn-patch-filter patch-4" data-patch="4">4.x</button>
-                            <button class="btn-patch-filter patch-5" data-patch="5">5.x</button>
-                            <button class="btn-patch-filter patch-6" data-patch="6">6.x</button>
-                            <button class="btn-patch-filter patch-7" data-patch="7">7.x</button>
-                        </div>
-                    </div>
-
-                    <div class="filter-group search-group">
-                        <div class="search-wrapper">
-                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                            <input type="text" id="minion-search" placeholder="Rechercher..." class="search-input">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="minions-list" class="minions-list">
-                    <!-- Rows injected via JS -->
-                </div>
-            </div>
-
-            <!-- VIEW: MINION DETAIL (Hidden) -->
-            <div id="minion-detail-view" class="dashboard-content hidden">
-                <button id="btn-back-minions" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Retour</button>
-
-                <!-- Moved Header to Top -->
-                <div class="detail-header-flex">
-                    <h1 id="detail-name">Nom de la Mascotte</h1>
-                </div>
-
-                <div class="detail-container">
-                    <!-- Left: Large Image (Col 1) -->
-                    <div class="detail-image-wrapper">
-                        <img id="detail-img" src="" alt="Minion" class="detail-img-large">
-                    </div>
-
-                    <!-- Right Column: Info + Sources -->
-                    <div class="detail-column-right">
-
-                        <!-- Top: Info (Logo + Diary) -->
-                        <div class="detail-info-wrapper">
-                            <div class="detail-patch-info">
-                                <img id="detail-patch-logo" src="" alt="Patch Logo" class="detail-patch-logo-large">
-                                <span id="detail-patch-ver" class="detail-patch-badge">Patch X.X</span>
-                            </div>
-
-                            <div class="detail-diary">
-                                <h3><i class="fa-solid fa-book-open"></i> Journal</h3>
-                                <p id="detail-diary-text">Description du carnet...</p>
-                            </div>
-                        </div>
-
-                        <!-- Bottom: Sources -->
-                        <div class="detail-sources-wrapper">
-                            <h3><i class="fa-solid fa-map-location-dot"></i> Moyens d'obtention</h3>
-                            <div id="detail-sources" class="detail-sources">
-                                <!-- Sources injected via JS -->
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Placeholders for other views -->
-            <!-- VIEW: MOUNTS (Hidden) -->
-            <div id="mounts-view" class="dashboard-content hidden">
-
-                <!-- FILTER BAR (Duplicated for Mounts) -->
-                <div class="filter-bar">
-                    <div class="filter-group">
-                        <span class="filter-label">Filtrer par</span>
-                        <button class="btn-star-unified missing" data-filter="missing" title="Non acquis">
-                            <i class="fa-regular fa-star"></i>
-                        </button>
-                        <button class="btn-star-unified collected" data-filter="collected" title="Acquis">
-                            <i class="fa-solid fa-star"></i>
-                        </button>
-                    </div>
-
-                    <button class="btn-filter-reset" id="mount-filter-reset" title="Réinitialiser les filtres"><i
-                            class="fa-solid fa-rotate-left"></i></button>
-                    <button class="btn-sync" id="btn-sync-mounts" title="Synchroniser avec FFXIV Collect"><i
-                            class="fa-solid fa-arrows-rotate"></i> Sync</button>
-
-                    <!-- Sync Button shared functionality or specific to mounts? keeping placeholder for now if needed -->
-
-                    <div class="filter-group">
-                        <span class="filter-label">Filtrer par</span>
-                        <div class="patch-filters">
-                            <button class="btn-patch-filter patch-2" data-patch="2">2.x</button>
-                            <button class="btn-patch-filter patch-3" data-patch="3">3.x</button>
-                            <button class="btn-patch-filter patch-4" data-patch="4">4.x</button>
-                            <button class="btn-patch-filter patch-5" data-patch="5">5.x</button>
-                            <button class="btn-patch-filter patch-6" data-patch="6">6.x</button>
-                            <button class="btn-patch-filter patch-7" data-patch="7">7.x</button>
-                        </div>
-                    </div>
-
-                    <div class="filter-group search-group">
-                        <div class="search-wrapper">
-                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                            <input type="text" id="mount-search" placeholder="Rechercher..." class="search-input">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="mounts-list" class="minions-list">
-                    <!-- Rows injected via JS -->
-                </div>
-            </div>
-
-            <!-- VIEW: MOUNT DETAIL (Hidden) -->
-            <div id="mount-detail-view" class="dashboard-content hidden">
-                <button id="btn-back-mounts" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Retour</button>
-
-                <div class="detail-header-flex">
-                    <h1 id="mount-detail-name">Nom de la Monture</h1>
-                </div>
-
-                <div class="detail-container">
-                    <!-- Left: Large Image (Col 1) -->
-                    <div class="detail-image-wrapper">
-                        <img id="mount-detail-img" src="" alt="Mount" class="detail-img-large">
-                    </div>
-
-                    <!-- Right Column: Info + Sources -->
-                    <div class="detail-column-right">
-
-                        <!-- Top: Info (Logo + Diary) -->
-                        <div class="detail-info-wrapper">
-                            <div class="detail-patch-info">
-                                <img id="mount-detail-patch-logo" src="" alt="Patch Logo"
-                                    class="detail-patch-logo-large">
-                                <span id="mount-detail-patch-ver" class="detail-patch-badge">Patch X.X</span>
-                            </div>
-
-                            <div class="detail-diary">
-                                <h3><i class="fa-solid fa-book-open"></i> Journal</h3>
-                                <p id="mount-detail-diary-text">Description du carnet...</p>
-                            </div>
-                        </div>
-
-                        <!-- Bottom: Sources -->
-                        <div class="detail-sources-wrapper">
-                            <h3><i class="fa-solid fa-map-location-dot"></i> Moyens d'obtention</h3>
-                            <div id="mount-detail-sources" class="detail-sources">
-                                <!-- Sources injected via JS -->
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div id="barding-view" class="dashboard-content hidden">
-                <p style="text-align:center;">Bardes à venir...</p>
-            </div>
-            <div id="orchestrion-view" class="dashboard-content hidden">
-                <p style="text-align:center;">Orchestion à venir...</p>
-            </div>
-
-            <!-- DETAILS MODAL -->
-            <div id="details-modal" class="modal-overlay hidden">
-                <div class="modal-content">
-                    <button id="modal-close" class="modal-close-btn">&times;</button>
-
-                    <div class="modal-header">
-                        <h2 style="margin:0; font-size:1.5rem; color:var(--gold);">Moyens d'obtention</h2>
-                        <!-- Title & Tooltip removed per user request -->
-                    </div>
-
-                    <div class="modal-body">
-                        <div id="modal-sources-list" class="sources-list">
-                            <!-- Injected JS -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
     </main>
 
-    <script type="module" src="app.js?v=2.7"></script>
-
+    <script type="module" src="/src/js/pages/login.js"></script>
 </body>
 
 </html>
