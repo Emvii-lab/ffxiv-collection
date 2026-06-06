@@ -21,7 +21,7 @@ export function openModal(item, patchData, itemType = 'minion') {
                 <i class="fa-solid fa-circle-info source-icon-fa-large"></i>
                 <div class="source-details">
                     <span class="source-name">Autre</span>
-                    <span class="source-extra">${escapeHtml(item.acquisition)}</span>
+                    <span class="source-extra">${item.acquisition}</span>
                 </div>
             </div>
         `;
@@ -64,7 +64,7 @@ export function openModal(item, patchData, itemType = 'minion') {
             } else if (currencyVal.startsWith('fa-')) {
                 currencyHtml = `<i class="${currencyVal} currency-icon-fa"></i>`;
             } else {
-                currencyHtml = `<span class="currency-symbol">${escapeHtml(currencyVal)}</span>`;
+                currencyHtml = `<span class="currency-symbol">${currencyVal}</span>`;
             }
 
             const formattedCost =
@@ -86,16 +86,16 @@ export function openModal(item, patchData, itemType = 'minion') {
         const div = document.createElement('div');
         div.className = 'source-item';
 
-        let sourceTitleHtml = `<span class="source-title">${escapeHtml(s.name)}</span>`;
+        let sourceTitleHtml = `<span class="source-title">${s.name}</span>`;
         let sourceDetailsHtml = ms.details
-            ? `<span class="source-details">${escapeHtml(ms.details)}</span>`
+            ? `<span class="source-details">${ms.details}</span>`
             : '';
 
         if (ms.lodestone_url && ms.lodestone_url.trim() !== '') {
             if (ms.details && ms.details.trim() !== '') {
-                sourceDetailsHtml = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-details" target="_blank">${escapeHtml(ms.details)}</a>`;
+                sourceDetailsHtml = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-details" target="_blank">${ms.details}</a>`;
             } else {
-                sourceTitleHtml = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-title" target="_blank">${escapeHtml(s.name)}</a>`;
+                sourceTitleHtml = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-title" target="_blank">${s.name}</a>`;
             }
         }
 
@@ -104,8 +104,8 @@ export function openModal(item, patchData, itemType = 'minion') {
             <div class="source-info">
                 ${sourceTitleHtml}
                 ${sourceDetailsHtml}
-                ${ms.location ? `<span class="location-link-container" style="font-weight:bold; font-size:0.85rem;">${escapeHtml(ms.location)}</span>` : ''}
-                ${item.reputation_rank ? `<span style="font-size:0.85rem;">${escapeHtml(item.reputation_rank)}</span>` : ''}
+                ${ms.location ? `<span class="location-link-container" style="font-weight:bold; font-size:0.85rem;">${ms.location}</span>` : ''}
+                ${item.reputation_rank ? `<span style="font-size:0.85rem;">${item.reputation_rank}</span>` : ''}
             </div>
             ${costHtml}
         `;

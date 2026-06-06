@@ -148,7 +148,7 @@ function renderDetails(item, type, sourcesKey) {
         });
 
         if (sources.length === 0 && item.acquisition) {
-            sourcesList.innerHTML = `<div class="source-item-row"><span class="source-name-title">${escapeHtml(item.acquisition)}</span></div>`;
+            sourcesList.innerHTML = `<div class="source-item-row"><span class="source-name-title">${item.acquisition}</span></div>`;
         }
     }
 }
@@ -182,9 +182,9 @@ function createSourceRow(ms, item) {
             currencyIcon =
                 iconVal.startsWith('http') || iconVal.startsWith('/')
                     ? `<img src="${iconVal}" class="currency-icon-small" alt="${escapeHtml(c.name || '')}">`
-                    : `<span class="currency-text">${escapeHtml(iconVal)}</span>`;
+                    : `<span class="currency-text">${iconVal}</span>`;
         } else if (c && c.name) {
-            currencyIcon = `<span class="currency-text">${escapeHtml(c.name)}</span>`;
+            currencyIcon = `<span class="currency-text">${c.name}</span>`;
         }
 
         let useDecimals = false;
@@ -202,15 +202,15 @@ function createSourceRow(ms, item) {
         costHtml = `<span class="source-cost badge-cost">${costStr} ${currencyIcon}</span>`;
     }
 
-    let sourceTitle = `<span class="source-name-title">${escapeHtml(s.name)}</span>`;
+    let sourceTitle = `<span class="source-name-title">${s.name}</span>`;
     if (ms.lodestone_url) {
-        sourceTitle = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-name-title" target="_blank">${escapeHtml(s.name)}</a>`;
+        sourceTitle = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-name-title" target="_blank">${s.name}</a>`;
     }
 
     // Reputation Rank
     let repHtml = '';
     if (item.reputation_rank) {
-        repHtml = `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-medal"></i> ${escapeHtml(item.reputation_rank)}</span>`;
+        repHtml = `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-medal"></i> ${item.reputation_rank}</span>`;
     }
 
     div.innerHTML = `
@@ -218,8 +218,8 @@ function createSourceRow(ms, item) {
             ${iconHtml}
             <div class="source-details section-column">
                 ${sourceTitle}
-                ${ms.details ? `<span class="source-extra-info">${escapeHtml(ms.details)}</span>` : ''}
-                ${ms.location ? `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-map-pin"></i> ${escapeHtml(ms.location)}</span>` : ''}
+                ${ms.details ? `<span class="source-extra-info">${ms.details}</span>` : ''}
+                ${ms.location ? `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-map-pin"></i> ${ms.location}</span>` : ''}
                 ${repHtml}
             </div>
         </div>

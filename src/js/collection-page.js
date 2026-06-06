@@ -30,7 +30,7 @@ export function createCollectionPage(cfg) {
         if (!cache) {
             const { data, error } = await repo.getItems();
             if (error) {
-                list.innerHTML = `<p style="color:red; text-align:center;">Erreur de chargement: ${escapeHtml(error.message)}</p>`;
+                list.innerHTML = `<p style="color:red; text-align:center;">Erreur de chargement: ${error.message}</p>`;
                 return;
             }
             cache = data;
@@ -168,7 +168,7 @@ export function createCollectionPage(cfg) {
 
         const badgeHtml = patchIconUrl
             ? `<img src="${patchIconUrl}" class="patch-badge-img" alt="${escapeHtml(version)}" title="Patch ${escapeHtml(version)}">`
-            : `<span class="patch-badge patch-${major}">${escapeHtml(version)}</span>`;
+            : `<span class="patch-badge patch-${major}">${version}</span>`;
         const logoHtml = patchLogoUrl
             ? `<img src="${patchLogoUrl}" class="patch-logo" alt="Logo Patch">`
             : '';
@@ -227,7 +227,7 @@ export function createCollectionPage(cfg) {
             <div class="${p}-info">
                 <div style="margin-right:auto; display:flex; flex-direction:column; align-items:flex-start;">
                     <span class="${p}-name">
-                        <span class="${p}-name-link">${escapeHtml(name)}</span>
+                        <span class="${p}-name-link">${name}</span>
                         <button class="btn-sources-trigger" title="Infos & Sources"><i class="fa-solid fa-magnifying-glass"></i></button>
                         ${auctionHtml}
                         ${surpriseHtml}
@@ -238,7 +238,7 @@ export function createCollectionPage(cfg) {
                 </div>
             </div>
             <div class="${p}-center-text" title="${escapeHtml(tooltipText)}">
-                ${tooltipText ? `<i class="fa-solid fa-quote-left quote-icon"></i> ${escapeHtml(tooltipText)} <i class="fa-solid fa-quote-right quote-icon"></i>` : ''}
+                ${tooltipText ? `<i class="fa-solid fa-quote-left quote-icon"></i> ${tooltipText} <i class="fa-solid fa-quote-right quote-icon"></i>` : ''}
             </div>
             <div class="${p}-meta">
                 <div class="col-badge">${badgeHtml}</div>
