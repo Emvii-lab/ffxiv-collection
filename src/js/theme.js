@@ -6,7 +6,7 @@ export function initTheme() {
     let isDark = false;
 
     if (savedTheme) {
-        isDark = (savedTheme === 'dark');
+        isDark = savedTheme === 'dark';
     } else {
         isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
@@ -16,7 +16,7 @@ export function initTheme() {
     if (themeBtn) {
         themeBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newIsDark = (currentTheme !== 'dark');
+            const newIsDark = currentTheme !== 'dark';
             applyTheme(newIsDark);
         });
     }
@@ -28,8 +28,10 @@ export function applyTheme(isDark) {
     const mainLogo = document.getElementById('main-logo');
 
     // Logos
-    const logoLight = "https://res.cloudinary.com/dd4rdtrig/image/upload/v1765754698/ffxiv_logo_black_text_patch_7.0_pgijf1.png";
-    const logoDark = "https://res.cloudinary.com/dd4rdtrig/image/upload/v1766244166/ffxiv_logo_white_text_patch_7.0_onh610.png";
+    const logoLight =
+        'https://res.cloudinary.com/dd4rdtrig/image/upload/v1765754698/ffxiv_logo_black_text_patch_7.0_pgijf1.png';
+    const logoDark =
+        'https://res.cloudinary.com/dd4rdtrig/image/upload/v1766244166/ffxiv_logo_white_text_patch_7.0_onh610.png';
 
     if (isDark) {
         root.setAttribute('data-theme', 'dark');

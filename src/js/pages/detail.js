@@ -1,7 +1,9 @@
 import { supabase } from '../supabase.js';
+import { requireAuth } from '../auth.js';
 import { injectCommonUI } from '../ui.js';
 import { initTheme } from '../theme.js';
 import { checkTransitionSounds, playMenuSound } from '../audio.js';
+import { escapeHtml } from '../collection-utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Core UI Init
@@ -9,7 +11,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     initTheme();
     checkTransitionSounds();
 
-    // 2. Parse URL
+    // 2. Auth (redirects to login if no session)
+    const session = await requireAuth();
+    if (!session) return;
+
+    // 3. Parse URL
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get('type') || 'minion';
     const id = urlParams.get('id');
@@ -19,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // 3. Back Button logic
+    // 4. Back Button logic
     const btnBack = document.getElementById('btn-back');
     if (btnBack) {
         btnBack.addEventListener('click', () => {
@@ -30,21 +36,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 4. Fetch Data
+    // 5. Fetch Data
     await loadDetails(type, id);
 });
 
 async function loadDetails(type, id) {
-    const table = type === 'barding' ? 'bardings' : (type === 'minion' ? 'minions' : 'mounts');
-    const sourceTable = type === 'barding' ? 'barding_sources' : (type === 'minion' ? 'minion_sources' : 'mount_sources');
-    const sourcesKey = type === 'barding' ? 'barding_sources' : (type === 'minion' ? 'minion_sources' : 'mount_sources');
+    const table = type === 'barding' ? 'bardings' : type === 'minion' ? 'minions' : 'mounts';
+    const sourcesKey =
+        type === 'barding'
+            ? 'barding_sources'
+            : type === 'minion'
+              ? 'minion_sources'
+              : 'mount_sources';
 
     const { data: item, error } = await supabase
         .from(table)
-        .select(`
+        .select(
+            `
             *,
             patches (*),
-            ${sourceTable} (
+            ${sourcesKey} (
                 id,
                 details,
                 cost,
@@ -54,7 +65,8 @@ async function loadDetails(type, id) {
                 sources ( name, icon_source_url ),
                 currencies ( name, icon_currency_url )
             )
-        `)
+        `
+        )
         .eq('id', id)
         .single();
 
@@ -92,19 +104,32 @@ function renderDetails(item, type, sourcesKey) {
 
     // Image
     if (imgEl) {
-        imgEl.src = item.picture_barding_url || item.picture_minion_url || item.picture_mount_url || item.image_url || item.icon_barding_url || item.icon_minion_url || item.icon_mount_url || '';
+        imgEl.src =
+            item.picture_barding_url ||
+            item.picture_minion_url ||
+            item.picture_mount_url ||
+            item.image_url ||
+            item.icon_barding_url ||
+            item.icon_minion_url ||
+            item.icon_mount_url ||
+            '';
         imgEl.alt = item.name || '';
     }
 
     // Diary / Description / Tooltip
     if (diaryEl) {
-        diaryEl.textContent = item.diary || item.tooltip || item.description || "Aucune description disponible.";
+        diaryEl.textContent =
+            item.diary || item.tooltip || item.description || 'Aucune description disponible.';
     }
 
     // Patch info
     const patchData = Array.isArray(item.patches) ? item.patches[0] : item.patches;
     if (patchVerEl) {
-        patchVerEl.textContent = patchData ? `Patch ${patchData.version}` : (item.patch_id ? `Patch ${item.patch_id}` : 'Patch inconnu');
+        patchVerEl.textContent = patchData
+            ? `Patch ${patchData.version}`
+            : item.patch_id
+              ? `Patch ${item.patch_id}`
+              : 'Patch inconnu';
     }
     if (patchLogoEl && patchData && patchData.logo_patch_url) {
         patchLogoEl.src = patchData.logo_patch_url;
@@ -113,16 +138,17 @@ function renderDetails(item, type, sourcesKey) {
 
     // Sources
     if (sourcesList) {
+        sourcesList.innerHTML = '';
         const sources = (item[sourcesKey] || []).sort((a, b) => (a.id || 0) - (b.id || 0));
         if (sources.length > 1) sourcesList.classList.add('has-multiple-sources');
 
-        sources.forEach(ms => {
+        sources.forEach((ms) => {
             const row = createSourceRow(ms, item);
             sourcesList.appendChild(row);
         });
 
         if (sources.length === 0 && item.acquisition) {
-            sourcesList.innerHTML = `<div class="source-item-row"><span class="source-name-title">${item.acquisition}</span></div>`;
+            sourcesList.innerHTML = `<div class="source-item-row"><span class="source-name-title">${escapeHtml(item.acquisition)}</span></div>`;
         }
     }
 }
@@ -137,8 +163,12 @@ function createSourceRow(ms, item) {
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     let iconUrl = s.icon_source_url || '';
-    if (s.name === 'CDJapan' && isDark) iconUrl = 'https://res.cloudinary.com/dd4rdtrig/image/upload/v1766262130/cdjapan_logo_blanc_vrpgph.png';
-    if (s.name === 'Square Enix Boutique' && isDark) iconUrl = 'https://res.cloudinary.com/dd4rdtrig/image/upload/v1765935529/square_enix_boutique_blanc_mbqtdy.webp';
+    if (s.name === 'CDJapan' && isDark)
+        iconUrl =
+            'https://res.cloudinary.com/dd4rdtrig/image/upload/v1766262130/cdjapan_logo_blanc_vrpgph.png';
+    if (s.name === 'Square Enix Boutique' && isDark)
+        iconUrl =
+            'https://res.cloudinary.com/dd4rdtrig/image/upload/v1765935529/square_enix_boutique_blanc_mbqtdy.webp';
 
     const iconHtml = iconUrl.startsWith('http')
         ? `<img src="${iconUrl}" class="source-icon-large">`
@@ -149,31 +179,38 @@ function createSourceRow(ms, item) {
         let currencyIcon = '';
         if (c && c.icon_currency_url) {
             const iconVal = c.icon_currency_url;
-            currencyIcon = (iconVal.startsWith('http') || iconVal.startsWith('/'))
-                ? `<img src="${iconVal}" class="currency-icon-small" alt="${c.name || ''}">`
-                : `<span class="currency-text">${iconVal}</span>`;
+            currencyIcon =
+                iconVal.startsWith('http') || iconVal.startsWith('/')
+                    ? `<img src="${iconVal}" class="currency-icon-small" alt="${escapeHtml(c.name || '')}">`
+                    : `<span class="currency-text">${escapeHtml(iconVal)}</span>`;
         } else if (c && c.name) {
-            currencyIcon = `<span class="currency-text">${c.name}</span>`;
+            currencyIcon = `<span class="currency-text">${escapeHtml(c.name)}</span>`;
         }
 
         let useDecimals = false;
-        if (s.name.match(/boutique|mog|station|store/i) || (c && c.icon_currency_url && !c.icon_currency_url.startsWith('http'))) {
+        if (
+            s.name.match(/boutique|mog|station|store/i) ||
+            (c && c.icon_currency_url && !c.icon_currency_url.startsWith('http'))
+        ) {
             useDecimals = true;
         }
 
-        const costStr = ms.cost.toLocaleString('fr-FR', useDecimals ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {});
+        const costStr = ms.cost.toLocaleString(
+            'fr-FR',
+            useDecimals ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {}
+        );
         costHtml = `<span class="source-cost badge-cost">${costStr} ${currencyIcon}</span>`;
     }
 
-    let sourceTitle = `<span class="source-name-title">${s.name}</span>`;
+    let sourceTitle = `<span class="source-name-title">${escapeHtml(s.name)}</span>`;
     if (ms.lodestone_url) {
-        sourceTitle = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-name-title" target="_blank">${s.name}</a>`;
+        sourceTitle = `<a href="${ms.lodestone_url}" class="eorzeadb_link source-name-title" target="_blank">${escapeHtml(s.name)}</a>`;
     }
 
     // Reputation Rank
     let repHtml = '';
     if (item.reputation_rank) {
-        repHtml = `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-medal"></i> ${item.reputation_rank}</span>`;
+        repHtml = `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-medal"></i> ${escapeHtml(item.reputation_rank)}</span>`;
     }
 
     div.innerHTML = `
@@ -181,8 +218,8 @@ function createSourceRow(ms, item) {
             ${iconHtml}
             <div class="source-details section-column">
                 ${sourceTitle}
-                ${ms.details ? `<span class="source-extra-info">${ms.details}</span>` : ''}
-                ${ms.location ? `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-map-pin"></i> ${ms.location}</span>` : ''}
+                ${ms.details ? `<span class="source-extra-info">${escapeHtml(ms.details)}</span>` : ''}
+                ${ms.location ? `<span class="source-extra-info" style="display:block;"><i class="fa-solid fa-map-pin"></i> ${escapeHtml(ms.location)}</span>` : ''}
                 ${repHtml}
             </div>
         </div>

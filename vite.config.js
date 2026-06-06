@@ -12,7 +12,9 @@ export default defineConfig({
                 mounts: 'mounts.html',
                 bardings: 'bardings.html',
                 orchestrion: 'orchestrion.html',
-                detail: 'detail.html'
+                detail: 'detail.html',
+                forgotPassword: 'forgot-password.html',
+                resetPassword: 'reset-password.html'
             }
         }
     }

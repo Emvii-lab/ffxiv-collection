@@ -443,6 +443,21 @@ body {
     text-decoration: none;
 }
 
+/* Auth form feedback messages */
+.form-msg {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+}
+
+.form-msg.error {
+    color: #e5484d;
+}
+
+.form-msg.success {
+    color: #30a46c;
+}
+
 /* Mascots Decoration */
 #supabase-data {
     position: fixed;

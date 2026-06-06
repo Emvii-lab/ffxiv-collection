@@ -48,7 +48,7 @@ async function init() {
             const { error } = await login(email, password);
 
             if (error) {
-                errorMsg.textContent = "Erreur : " + error.message;
+                errorMsg.textContent = 'Erreur : ' + error.message;
                 errorMsg.style.display = 'block';
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Se connecter';

@@ -1,5 +1,4 @@
 import { DEFAULT_NAV_ITEMS } from './constants.js';
-import { playMenuSound } from './audio.js';
 
 export function injectCommonUI() {
     // Inject Banner
@@ -34,9 +33,11 @@ export function injectCommonUI() {
     const navContainer = document.querySelector('.main-nav');
     if (navContainer && !navContainer.hasChildNodes()) {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const navList = DEFAULT_NAV_ITEMS.map(item => `
+        const navList = DEFAULT_NAV_ITEMS.map(
+            (item) => `
             <li><a href="${item.url}" class="nav-link ${currentPage === item.url ? 'active' : ''}">${item.label}</a></li>
-        `).join('');
+        `
+        ).join('');
 
         navContainer.innerHTML = `
             <ul class="nav-list">
@@ -49,7 +50,7 @@ export function injectCommonUI() {
         `;
 
         // Add menu sound to nav links
-        navContainer.querySelectorAll('.nav-link').forEach(link => {
+        navContainer.querySelectorAll('.nav-link').forEach((link) => {
             link.addEventListener('click', () => {
                 localStorage.setItem('pendingMenuSound', 'true');
             });
