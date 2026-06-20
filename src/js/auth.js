@@ -66,3 +66,14 @@ export async function requireAuth() {
     }
     return session;
 }
+
+/**
+ * Returns the authenticated user (or null) without redirecting.
+ * Useful for UI that adapts to login state.
+ */
+export async function getSessionUser() {
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
+    return session ? session.user : null;
+}

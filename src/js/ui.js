@@ -1,4 +1,5 @@
 import { DEFAULT_NAV_ITEMS } from './constants.js';
+import { getSessionUser } from './auth.js';
 
 export function injectCommonUI() {
     // Inject Banner
@@ -56,6 +57,35 @@ export function injectCommonUI() {
             });
         });
     }
+
+    // Show the "connected" badge (async, only if a session exists)
+    renderUserStatusBadge();
+}
+
+/**
+ * Renders a small fixed badge showing the logged-in user's email.
+ * Removes itself when there is no active session (e.g. login page).
+ */
+export async function renderUserStatusBadge() {
+    const user = await getSessionUser();
+    let badge = document.getElementById('user-status-badge');
+
+    if (!user) {
+        if (badge) badge.remove();
+        return;
+    }
+
+    if (!badge) {
+        badge = document.createElement('div');
+        badge.id = 'user-status-badge';
+        badge.className = 'user-status-badge';
+        badge.innerHTML = '<span class="status-dot"></span><span class="status-email"></span>';
+        document.body.appendChild(badge);
+    }
+
+    const email = user.email || 'Connectée';
+    badge.querySelector('.status-email').textContent = email;
+    badge.title = `Connectée : ${email}`;
 }
 
 export function showLoading(containerId) {

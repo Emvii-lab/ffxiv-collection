@@ -647,6 +647,51 @@ body {
     background: #333333;
 }
 
+/* Connected-user status badge (bottom-left, opposite the audio/theme buttons) */
+.user-status-badge {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 240px;
+    padding: 8px 14px;
+    border-radius: 99px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    font-size: 0.8rem;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.user-status-badge .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #30a46c;
+    flex-shrink: 0;
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+.user-status-badge .status-email {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@keyframes statusPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 3px rgba(48, 164, 108, 0.25);
+    }
+    50% {
+        box-shadow: 0 0 0 5px rgba(48, 164, 108, 0.1);
+    }
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {
